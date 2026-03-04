@@ -30,4 +30,11 @@ export class AdminService {
   activateUser(id: number, activationDto: UserActivationDto): Observable<CustomJSONResponse<UserResponseDto>> {
     return this.http.put<CustomJSONResponse<UserResponseDto>>(`${this.apiUrl}/activate/${id}`, activationDto);
   }
+
+
+    getUserById(id:number): Observable<CustomJSONResponse<UserResponseDto>>{
+    return this.http.get<CustomJSONResponse<UserResponseDto>>(`${this.apiUrl}/user/${id}`)
+  }
+
+ 
 }

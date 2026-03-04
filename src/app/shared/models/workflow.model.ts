@@ -46,7 +46,17 @@ export interface SubTaskDTO {
   subTaskId: number;
   status: Status;
   title: string;
-  assignedToUserId: UserDTO;
+  assignedToUserId: number;
+
+}
+
+
+export interface SubTaskCreateDTO {
+  taskId:number;
+  status: Status;
+  title: string;
+  assignedToUserId: number;
+  
 }
 
 export interface TaskDTO {
@@ -143,3 +153,5 @@ export const PriorityConfig = {
     class: 'bg-red-50 text-red-700 border-red-200 dark:bg-red-500/10 dark:text-red-400 dark:border-red-500/20' 
   }
 };
+
+

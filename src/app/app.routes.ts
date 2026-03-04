@@ -79,7 +79,15 @@ export const routes: Routes = [
       {
         path: 'reports/all',
        loadComponent: () => import('./pages/dashboard/manager/report/view/manager-report-view').then(m => m.ManagerReportListComponent)
-      }
+      },
+      { 
+        path: 'workflows/:workflowId/task/:taskId', 
+        // Ensure this path matches your actual folder/file name exactly
+        loadComponent: () => import('./pages/dashboard/manager/dashboard/manager/tasks/task-detail/task-detail')
+      },
+
+
+ 
 
     ]
   },
