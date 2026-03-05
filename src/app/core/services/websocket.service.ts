@@ -13,7 +13,7 @@ export class WebsocketService {
 
     this.stompClient = new Client({
       webSocketFactory: () =>
-        new SockJS('http://localhost:8081/ws'),
+        new SockJS('http://localhost:9005/api/notifications/ws'),
 
       connectHeaders: {
         Authorization: `Bearer ${localStorage.getItem('token')}`

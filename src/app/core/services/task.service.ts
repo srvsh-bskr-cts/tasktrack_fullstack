@@ -25,6 +25,9 @@ export class TaskService {
   getTaskById(id: number): Observable<CustomJSONResponse<TaskData>> {
     return this.http.get<CustomJSONResponse<TaskData>>(`${this.apiUrl}/id/${id}`);
   }
+  getAllTasksOfUser(): Observable<CustomJSONResponse<TaskData[]>> {
+    return this.http.get<CustomJSONResponse<TaskData[]>>(`${this.apiUrl}/my`);
+  }
   createSubTask(subTask: SubTaskCreateDTO): Observable<CustomJSONResponse<SubTaskDTO>> {
     return this.http.post<CustomJSONResponse<SubTaskDTO>>(`${this.subTaskUrl}`, subTask);
   }

@@ -1,0 +1,27 @@
+<app-header></app-header>
+<div class="main p-8 bg-zinc-950 min-h-[calc(100vh-64px)]">
+  <app-back-button></app-back-button>
+  <!-- {{taskList()}} -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 pb-6">
+    @for (task of taskList(); track task.taskId) {
+      <div class="task-box w-full bg-amber-200 h-64 rounded-lg bg-zinc-800/50 px-4 py-2 flex flex-col">
+        <div class="">
+          <span
+            [class]="
+              'px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-tighter border ' +
+              taskStatusConfig[task.status].class
+            "
+          >
+            {{ taskStatusConfig[task.status].label }}
+          </span>
+        </div>
+        <div class="font-bold px-1 mt-2">
+            <a [routerLink]="['/user/task/view/'+task.taskId]">
+
+                {{task.title}}
+            </a>
+        </div>
+      </div>
+    }
+  </div>
+</div>

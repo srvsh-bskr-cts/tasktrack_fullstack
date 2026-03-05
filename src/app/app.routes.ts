@@ -91,6 +91,25 @@ export const routes: Routes = [
 
     ]
   },
+  {
+    path:'user',
+    canActivate:[authGuard],
+    data:{roles:[Role.EMPLOYEE]},
+    children:[
+      {
+        path:'',
+        loadComponent: () => import('./pages/dashboard/user/user-dashboard')
+      },
+      {
+        path:'tasks/all',
+        loadComponent:()=> import('./pages/dashboard/user/tasks/task-list/task-list')
+      },
+      {
+        path:'task/view/:taskId',
+        loadComponent: () => import('./pages/dashboard/manager/dashboard/manager/tasks/task-detail/task-detail')
+      }
+    ]
+  },
 
   //  CATCH-ALLS
   { path: '', redirectTo: 'login', pathMatch: 'full' },
