@@ -47,6 +47,7 @@ export class SignupComponent {
           // Your backend returns: "Signup successful! Please wait for Admin activation."
           // alert(res.message);
           toast.success(res.message)
+          
           this.router.navigate(['/login']);
         },
         error: (err) => {
