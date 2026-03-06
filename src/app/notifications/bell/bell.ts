@@ -25,7 +25,9 @@ export class BellComponent implements OnInit, OnDestroy {
       next: (data) => {
         // If the new list is longer than our current list, show a toast
         if (data.length > this.notifications().length && this.notifications().length > 0) {
-          toast("You have new notifications");
+              toast.success("You have a new notification", {
+      description: `Click on bell icon to view them`
+    });
         }
         
         this.notifications.set(data);

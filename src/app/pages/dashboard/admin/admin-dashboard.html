@@ -45,14 +45,20 @@
        <h2 class="text-xl font-black text-zinc-900 dark:text-white uppercase tracking-tight mb-8">Workflows</h2>
         
         <div class="space-y-2">
-          <a routerLinkActive="router-link-active" class="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all group/link">
+          <a  routerLink="/admin/templates" class="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all group/link">
             <span class="text-xs font-bold uppercase tracking-wider">View All Templates</span>
             <span class="opacity-0 group-hover/link:opacity-100 transition-opacity">→</span>
           </a>
-          <a href="#" class="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all group/link">
+          <!-- <a href="#" class="flex items-center justify-between p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all group/link">
             <span class="text-xs font-bold uppercase tracking-wider">Create Template</span>
             <span class="opacity-0 group-hover/link:opacity-100 transition-opacity">→</span>
-          </a>
+          </a> -->
+
+          
+          <button (click)="handleCreateNewDialogOpen()" class="flex items-center justify-between w-full p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-800/50 text-zinc-600 dark:text-zinc-300 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 hover:text-indigo-600 dark:hover:text-indigo-400 transition-all group/link">
+  
+    <span class="truncate text-xs font-bold uppercase tracking-wider" > Create New Template</span>
+  </button>
         </div>
       </div>
 
@@ -82,3 +88,10 @@
     </div>
   </div>
 </main>
+
+@if(createNewDialogOpen) {
+  
+  <app-new-workflow-template   [(isOpen)]="createNewDialogOpen" (cancel)="handleCreateNewDialogOpen()">
+
+  </app-new-workflow-template>
+}
