@@ -8,7 +8,6 @@ import { toast} from 'ngx-sonner'
   selector: 'app-login',
   imports: [CommonModule,ReactiveFormsModule,RouterModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -41,6 +40,7 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         }
         toast.success("Login Successfull")
+        
       },
       error: (err) => {
         console.error('Login Error:', err);

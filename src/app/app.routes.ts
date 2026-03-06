@@ -39,7 +39,11 @@ export const routes: Routes = [
     {
       path: 'reports/all', 
       loadComponent: () => import('./pages/dashboard/admin/report/view/view.report').then(m => m.ReportListComponent)
-    } 
+    } ,
+       { 
+        path: 'templates', 
+        loadComponent: () => import('./pages/dashboard/admin/manage-template/manage-template.component').then(a => a.ManageTemplate) 
+      }
       
     
 ]
