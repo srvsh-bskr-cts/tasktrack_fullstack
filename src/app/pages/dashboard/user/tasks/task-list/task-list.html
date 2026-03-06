@@ -1,0 +1,52 @@
+<app-header></app-header>
+<main class="p-8 bg-zinc-950 min-h-[calc(100vh-64px)]">
+  <div class="max-w-7xl mx-auto">
+    <div class="mb-10">
+      <app-back-button></app-back-button>
+      <h1 class="text-4xl font-black text-white mt-4 tracking-tight">My Tasks</h1>
+      <p class="text-zinc-500 text-sm mt-1">Select a task to view subtasks and collaborate.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+      @for (task of taskList(); track task.taskId) {
+        <div class="group bg-zinc-900/30 border border-zinc-800/50 rounded-3xl p-1 transition-all duration-300 hover:border-indigo-500/40 hover:bg-zinc-900/60">
+          
+          <div class="p-6 h-full flex flex-col justify-between">
+            <div>
+              <div class="mb-6">
+                <span [class]="'px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest border ' + taskStatusConfig[task.status].class">
+                  {{ taskStatusConfig[task.status].label }}
+                </span>
+              </div>
+
+              <a [routerLink]="['/user/task/view/', task.taskId]" 
+                 class="block group-hover:translate-x-1 transition-transform duration-300">
+                <h3 class="text-xl font-bold text-zinc-100 group-hover:text-indigo-400 transition-colors line-clamp-2">
+                  {{ task.title }}
+                </h3>
+              </a>
+              
+              <p class="text-zinc-500 text-sm mt-3 line-clamp-2 leading-relaxed">
+                {{ task.description || 'No additional details provided.' }}
+              </p>
+            </div>
+
+            <div class="mt-8 pt-5 border-t border-zinc-800/50 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></div>
+                <span class="text-[11px] font-medium text-zinc-400 uppercase tracking-tighter">Reference: #{{task.taskId}}</span>
+              </div>
+              
+              <div class="flex items-center gap-1.5 text-zinc-500">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+                <span class="text-[11px] font-bold text-zinc-600 group-hover:text-indigo-400 transition-colors"><a [routerLink]="['/user/task/view/', task.taskId]" >View Details</a></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</main>

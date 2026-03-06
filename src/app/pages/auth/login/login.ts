@@ -36,6 +36,8 @@ export class LoginComponent {
           this.router.navigate(['admin/']);
         } else if (role === 'MANAGER') {
           this.router.navigate(['manager/']);
+        } else if (role === 'EMPLOYEE') {
+          this.router.navigate(['user/']);
         } else {
           this.router.navigate(['/dashboard']);
         }

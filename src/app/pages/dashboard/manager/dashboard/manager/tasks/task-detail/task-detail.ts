@@ -34,9 +34,12 @@ export default class TaskDetail {
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private dueDateService = inject(DueDateService);
+  private authService = inject(AuthService);
   private taskService = inject(TaskService);
   private userService = inject(AdminService);
   private commentService = inject(CommentService);
+
+  public role:string = '';
   task = signal<TaskData | null>(null);
   user = signal<UserDTO | null>(null);
   dueDate = signal<DueDateInfo | null>(null);
@@ -51,39 +54,11 @@ export default class TaskDetail {
     if (this.taskId) {
       this.getTaskById();
       // this.getComments();
-      this.commentsSubscriber = this.commentService
-      .getAllCommentsForByPolling(parseInt(this.taskId))
-.subscribe({
-    next: (res: any) => {
-      const commentData = Array.isArray(res) ? res : res.data || [];
-      this.comments.set(commentData);
-      
-      // After loading comments, fetch names for all unique userIds
-      this.fetchUserNames(commentData);
-    },
-    error: (err) => {
-      if (err.status === 404) this.comments.set([]);
-    }
-  });
+      this.setupCommentsSubscription();
     }
   }
 
-
-  getComments() {
-  const id = Number(this.taskId);
-  this.commentService.getAllCommentsForByPolling(id).subscribe({
-    next: (res: any) => {
-      const commentData = Array.isArray(res) ? res : res.data || [];
-      this.comments.set(commentData);
-      
-      // After loading comments, fetch names for all unique userIds
-      this.fetchUserNames(commentData);
-    },
-    error: (err) => {
-      if (err.status === 404) this.comments.set([]);
-    }
-  });
-}
+  isManager = signal(false);
 
   constructor() {
     this.taskId = this.route.snapshot.paramMap.get('taskId');
@@ -113,6 +88,13 @@ export default class TaskDetail {
       toast.error("Error Loading tasks")
       },
     });
+  }
+
+  getRole(){
+    this.role = this.authService.getRoleFromToken();
+    if(this.role == "MANAGER"){
+      this.isManager.set(true);
+    }
   }
 
   toggleSubStatus(taskId: number, subTaskId: number, currentStatus: string) {
@@ -240,39 +222,31 @@ onDelete(subTaskId: number) {
     });
   }
 }
-//commit
-  userMap = signal<Map<number, UserDTO>>(new Map());
-
-
-
-private fetchUserNames(comments: any[]) {
-  const uniqueUserIds = [...new Set(comments.map(c => c.userId))];
-  
-  uniqueUserIds.forEach(id => {
-    // Only fetch if we don't already have the user in our map
-    if (!this.userMap().has(id)) {
-      this.userService.getUserById(id).subscribe({
-        next: (res) => {
-          this.userMap.update(map => {
-            const newMap = new Map(map);
-            if(res.data.role == "MANAGER") {
-              this.managerUserId = id;
-              
-            }
-            newMap.set(id, res.data); // Assuming res.data contains the UserDTO
-            return newMap;
-          });
+  private setupCommentsSubscription() {
+    this.commentsSubscriber = this.commentService
+      .getAllCommentsForByPolling(parseInt(this.taskId!))
+      .subscribe({
+        next: (res: any) => {
+          const commentData = Array.isArray(res) ? res : res.data || [];
+          this.comments.set(commentData);
+        },
+        error: (err) => {
+          if (err.status === 404) this.comments.set([]);
         }
       });
-    }
-  });
-}
+  }
 
-// Helper method for the HTML
-getUserName(userId: number): string {
-  return this.userMap().get(userId)?.userName || 'Loading...';
-}
-  // 6. Add Post Logic
+  // REPLACED: Simple refresh instead of manual mapping
+  getComments() {
+    const id = Number(this.taskId);
+    this.commentService.getAllCommentsForByPolling(id).subscribe({
+      next: (res: any) => {
+        const commentData = Array.isArray(res) ? res : res.data || [];
+        this.comments.set(commentData);
+      }
+    });
+  }
+
   addComment() {
     if (!this.formText.trim()) return;
     
@@ -283,12 +257,10 @@ getUserName(userId: number): string {
 
     this.commentService.addComment(dto).subscribe({
       next: () => {
-        this.formText = ''; // Clear input
-        this.getComments(); // Refresh list
-        this.commentsSubscriber?.unsubscribe()
+        this.formText = ''; 
+        this.getComments(); 
       }
     });
   }
-
 
 }
