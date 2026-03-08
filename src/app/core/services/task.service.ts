@@ -30,7 +30,8 @@ export class TaskService {
   }
 
   updateTaskStatus(payload:string , id:number) : Observable<CustomJSONResponse<void>>{
-    return this.http.patch<CustomJSONResponse<void>>(`${this.apiUrl}/status/${id}`,{status:payload})
+    const body = {status:payload}
+    return this.http.patch<CustomJSONResponse<void>>(`${this.apiUrl}/status/${id}`,body)
   }
 
   createSubTask(subTask: SubTaskCreateDTO): Observable<CustomJSONResponse<SubTaskDTO>> {

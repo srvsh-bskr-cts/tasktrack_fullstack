@@ -57,6 +57,7 @@ export default class TaskDetail {
   ngOnInit(): void {
     if (this.taskId) {
       this.getTaskById();
+      this.getRole();
       // this.getComments();
       this.setupCommentsSubscription();
     }
@@ -266,6 +267,31 @@ onDelete(subTaskId: number) {
       }
     });
   }
+
+  public statusOptions = [
+  { label: 'Open', value: 'OPEN' },
+  { label: 'In Progress', value: 'IN_PROGRESS' },
+  { label: 'Completed', value: 'COMPLETED' },
+  { label: 'Blocked', value: 'BLOCKED' }
+];
+
+changeTaskStatus(newStatus: string) {
+  if (!this.task()?.taskId) return;
+
+  this.taskService.updateTaskStatus(newStatus, Number(this.task()?.taskId)).subscribe({
+    next: () => {
+      this.task.update(current => {
+        if (!current) return null;
+        return { ...current, status: newStatus as any };
+      });
+      toast.success(`Task status updated to ${newStatus}`);
+    },
+    error: (err) => {
+      console.error(err);
+      toast.error("Failed to update task status");
+    }
+  });
+}
 
   
 
