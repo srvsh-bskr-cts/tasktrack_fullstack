@@ -27,8 +27,18 @@ constructor(private workflowTemplateService: WorkflowTemplateService,    private
   ngOnInit(): void {
     this.getAllWorkFlowTemplates();
   }
+
+  templateName = signal<string|null>(null)
+  templateId = signal<number|null>(null)
+  openNewWorkflowDialog({name, id}:{name: string, id: number}) {
+    this.templateId.set(id)
+    this.templateName.set(name)
+    this.openNewWorkflowDialof.set(true)
+  }
 toggleNewWorkflowDialogCancel() {
-  this.openNewWorkflowDialof.update(val => !val)
+  this.openNewWorkflowDialof.update(val => false)
+      this.templateId.set(null)
+    this.templateName.set(null)
 }
   getAllWorkFlowTemplates(): void {
     this.isLoading = true;

@@ -58,21 +58,27 @@
               </div>
             </div>
 
-            <button (click)="toggleNewWorkflowDialogCancel()" 
+            <button (click)="openNewWorkflowDialog({name: template.workflowTemplateName, id:template.workflowTemplateId} )" 
                     class="w-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 py-4 rounded-2xl text-[11px] font-black uppercase tracking-[0.15em] transition-all hover:bg-indigo-600 dark:hover:bg-indigo-500 dark:hover:text-white active:scale-95 shadow-xl shadow-zinc-200 dark:shadow-none">
               Initialize Workflow
             </button>
             
           </div>
-        <app-new-workflow-dialog 
-  [isOpen]="openNewWorkflowDialof"
-  [workflowTemplateName]="template.workflowTemplateName"
-  [workflowTemplateId]="template.workflowTemplateId"
-  (cancel)="toggleNewWorkflowDialogCancel()">
-</app-new-workflow-dialog>
+
         }
       </div>
     }
   </div>
 </div>
 
+
+
+@if (openNewWorkflowDialof()) {
+  <app-new-workflow-dialog 
+[isOpen]="openNewWorkflowDialof"
+[workflowTemplateName]="templateName()!"
+[workflowTemplateId]="templateId()!"
+(cancel)="toggleNewWorkflowDialogCancel()">
+</app-new-workflow-dialog>
+
+}
